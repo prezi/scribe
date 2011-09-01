@@ -109,6 +109,9 @@ int main(int argc, char **argv) {
     // seed random number generation with something reasonably unique
     srand(time(NULL) ^ getpid());
 
+    // don't terminate if a pipe breaks
+    signal(SIGPIPE, SIG_IGN);
+
     g_Handler = shared_ptr<scribeHandler>(new scribeHandler(port, config_file));
     g_Handler->initialize();
 
@@ -126,6 +129,7 @@ scribeHandler::scribeHandler(unsigned long int server_port, const std::string& c
   : FacebookBase("Scribe"),
     port(server_port),
     numThriftServerThreads(DEFAULT_SERVER_THREADS),
+    sslOptions(new SSLOptions),
     checkPeriod(DEFAULT_CHECK_PERIOD),
     configFilename(config_file),
     status(STARTING),
@@ -598,6 +602,8 @@ void scribeHandler::initialize() {
       }
     }
 
+    // Setup SSL options
+    sslOptions->configure(config);
 
     // Build a new map of stores, and move stores from the old map as
     // we find them in the config file. Any stores left in the old map

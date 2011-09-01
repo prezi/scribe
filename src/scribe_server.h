@@ -54,7 +54,6 @@ class scribeHandler : virtual public scribe::thrift::scribeIf,
   // number of threads processing new Thrift connections
   size_t numThriftServerThreads;
 
-
   inline unsigned long long getMaxQueueSize() {
     return maxQueueSize;
   }
@@ -75,6 +74,8 @@ class scribeHandler : virtual public scribe::thrift::scribeIf,
   unsigned long getMaxConn() {
     return maxConn;
   }
+  boost::shared_ptr<SSLOptions> sslOptions;
+
  private:
   boost::shared_ptr<apache::thrift::server::TNonblockingServer> server;
 
