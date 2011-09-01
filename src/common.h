@@ -42,10 +42,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <signal.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/convenience.hpp>
-
 
 // For security reasons we can't release everything that's compiled
 // in at facebook. Other users might find this useful as well for

@@ -115,12 +115,31 @@ void scribe::startServer() {
     thread_manager->start();
   }
 
-  shared_ptr<TNonblockingServer> server(new TNonblockingServer(
-                                          processor,
-                                          protocol_factory,
-                                          g_Handler->port,
-                                          thread_manager
+  shared_ptr<TServerSocket> serverSocket;
+  if (g_Handler->sslOptions->sslIsEnabled()) {
+    boost::shared_ptr<TSSLSocketFactory> sslFactory(g_Handler->sslOptions->createFactory());
+    serverSocket.reset(new TSSLServerSocket(g_Handler->port, sslFactory));
+  } else {
+    // serverSocket is not used since it is hardcoded into TNonblockingServer
+  }
+
+  shared_ptr<TNonblockingServer> server;
+  if (g_Handler->sslOptions->sslIsEnabled()) {
+    server.reset(new TThreadedServer(
+                                     processor, 
+                                     serverSocket, 
+                                     framedTransportFactory, 
+                                     binaryProtocolFactory
+                                     ));
+  } else {
+    server.reset(new TNonblockingServer(
+                                        processor,
+                                        protocol_factory,
+                                        g_Handler->port,
+                                        thread_manager
                                         ));
+  }
+
   g_Handler->setServer(server);
 
   LOG_OPER("Starting scribe server on port %lu", g_Handler->port);

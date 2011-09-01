@@ -24,15 +24,19 @@
 
 #include "common.h"
 
+#include "thrift/transport/TSSLServerSocket.h"
+
 /* return codes for ScribeConn and ConnPool */
 #define CONN_FATAL        (-1) /* fatal error. close everything */
 #define CONN_OK           (0)  /* success */
 #define CONN_TRANSIENT    (1)  /* transient error */
 
+class SSLOptions;
+
 // Basic scribe class to manage network connections. Used by network store
 class scribeConn {
  public:
-  scribeConn(const std::string& host, unsigned long port, int timeout);
+  scribeConn(const std::string& host, unsigned long port, int timeout, boost::shared_ptr<SSLOptions> sslOptions);
   scribeConn(const std::string &service, const server_vector_t &servers, int timeout);
   virtual ~scribeConn();
 
@@ -62,6 +66,8 @@ class scribeConn {
 
   bool serviceBased;
   std::string serviceName;
+  boost::shared_ptr<SSLOptions> sslOptions;
+  boost::shared_ptr<apache::thrift::transport::TSSLSocketFactory> sslSocketFactory;
   server_vector_t serverList;
   std::string remoteHost;
   unsigned long remotePort;
@@ -82,7 +88,7 @@ class ConnPool {
   ConnPool();
   virtual ~ConnPool();
 
-  bool open(const std::string& host, unsigned long port, int timeout);
+  bool open(const std::string& host, unsigned long port, int timeout, boost::shared_ptr<SSLOptions> sslOptions);
   bool open(const std::string &service, const server_vector_t &servers, int timeout);
 
   void close(const std::string& host, unsigned long port);
