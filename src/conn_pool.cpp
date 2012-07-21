@@ -24,6 +24,7 @@
 #include "common.h"
 #include "scribe_server.h"
 #include "conn_pool.h"
+#include "thrift/transport/TSSLSocket.h"
 
 using std::string;
 using std::ostringstream;

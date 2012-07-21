@@ -68,7 +68,7 @@ class scribeHandler : virtual public scribe::thrift::scribeIf,
   void incCounter(std::string counter, long amount);
 
   inline void setServer(
-      boost::shared_ptr<apache::thrift::server::TNonblockingServer> & server) {
+      boost::shared_ptr<apache::thrift::server::TServer> & server) {
     this->server = server;
   }
   unsigned long getMaxConn() {
@@ -77,7 +77,7 @@ class scribeHandler : virtual public scribe::thrift::scribeIf,
   boost::shared_ptr<SSLOptions> sslOptions;
 
  private:
-  boost::shared_ptr<apache::thrift::server::TNonblockingServer> server;
+  boost::shared_ptr<apache::thrift::server::TServer> server;
 
   unsigned long checkPeriod; // periodic check interval for all contained stores
 

@@ -24,6 +24,8 @@
 
 #include "common.h"
 
+#include "thrift/transport/TSSLServerSocket.h"
+
 /* return codes for ScribeConn and ConnPool */
 #define CONN_FATAL        (-1) /* fatal error. close everything */
 #define CONN_OK           (0)  /* success */

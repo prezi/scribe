@@ -28,6 +28,7 @@
 #include "common.h"
 #include "scribe_server.h"
 #include "network_dynamic_config.h"
+#include "thrift/transport/TSSLSocket.h"
 
 using namespace std;
 using namespace boost;

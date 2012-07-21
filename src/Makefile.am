@@ -118,7 +118,7 @@ $(eval $(call thrift_template,.,$(srcdir)/../if/scribe.thrift,$(THRIFT_OPTS)))
 $(eval $(call thrift_template,.,$(srcdir)/../if/bucketupdater.thrift,$(THRIFT_OPTS)))
 
 if FACEBOOK
-  $(eval $(call thrift_template,.,$(smc_home)/if/ServiceManager.thrift,--gen cpp))
+  $(eval $(call thrift_template,.,$(smc_home)/if/ServiceManager.thrift,--gen cpp:pure_enums))
 endif
 
 BUILT_SOURCES = thriftstyle
