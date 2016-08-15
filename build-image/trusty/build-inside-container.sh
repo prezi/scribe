@@ -44,5 +44,6 @@ fpm -s dir -t deb -n scribe \
     -v 0.2.2~$(date +%Y%m%d)~prezi$buildcount \
     -p /output/scribe_VERSION_ARCH.deb \
     -d thrift \
+    -d python-six \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr

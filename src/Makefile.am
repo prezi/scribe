@@ -74,6 +74,7 @@ AM_CPPFLAGS += $(BOOST_CPPFLAGS)
 AM_CPPFLAGS += $(FB_CPPFLAGS) $(DEBUG_CPPFLAGS)
 
 EXTERNAL_LIBS += $(BOOST_LDFLAGS) $(BOOST_SYSTEM_LIB) $(BOOST_FILESYSTEM_LIB)
+AM_LDFLAGS = $(BOOST_LDFLAGS) $(BOOST_SYSTEM_LIB) $(BOOST_FILESYSTEM_LIB) -lthrift -Wl,-rpath,$(thrift_home)/lib
 
 # Section 3 #############################################################################
 # GENERATE BUILD RULES
@@ -85,7 +86,7 @@ EXTERNAL_LIBS += $(BOOST_LDFLAGS) $(BOOST_SYSTEM_LIB) $(BOOST_FILESYSTEM_LIB)
 if STATIC
 lib_LIBRARIES = libscribe.a libdynamicbucketupdater.a
 libscribe_a_SOURCES = gen-cpp/scribe.cpp gen-cpp/scribe_types.cpp gen-cpp/scribe_constants.cpp
-libdynamicbucketupdater_a_SOURCES = gen-cpp/BucketStoreMapping.cpp gen-cpp/bucketupdater_constants.cpp gen-cpp/bucketupdater_types.cpp 
+libdynamicbucketupdater_a_SOURCES = gen-cpp/BucketStoreMapping.cpp gen-cpp/bucketupdater_constants.cpp gen-cpp/bucketupdater_types.cpp
 INTERNAL_LIBS = libscribe.a libdynamicbucketupdater.a
 endif
 
@@ -97,7 +98,7 @@ libscribe_so_SOURCES = gen-cpp/scribe.cpp gen-cpp/scribe_types.cpp
 libdynamicbucketupdater_so_SOURCES = gen-cpp/BucketStoreMapping.cpp gen-cpp/bucketupdater_constants.cpp gen-cpp/bucketupdater_types.cpp 
 libscribe_so_CXXFLAGS = $(SHARED_CXXFLAGS)
 libdynamicbucketupdater_so_CXXFLAGS = $(SHARED_CXXFLAGS)
-libscribe_so_LDFLAGS = $(SHARED_LDFLAGS)
+libscribe_so_LDFLAGS = $(SHARED_LDFLAGS) -rpath $(thrift_home)/lib
 libdynamicbucketupdater_so_LDFLAGS = $(SHARED_LDFLAGS)
 INTERNAL_LIBS =  libscribe.so libdynamicbucketupdater.so
 endif
@@ -122,7 +123,7 @@ $(eval $(call thrift_template,.,$(srcdir)/../if/scribe.thrift,$(THRIFT_OPTS)))
 $(eval $(call thrift_template,.,$(srcdir)/../if/bucketupdater.thrift,$(THRIFT_OPTS)))
 
 if FACEBOOK
-  $(eval $(call thrift_template,.,$(smc_home)/if/ServiceManager.thrift,--gen cpp))
+  $(eval $(call thrift_template,.,$(smc_home)/if/ServiceManager.thrift,--gen cpp:pure_enums))
 endif
 
 BUILT_SOURCES = thriftstyle
