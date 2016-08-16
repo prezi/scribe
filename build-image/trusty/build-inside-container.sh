@@ -44,7 +44,7 @@ fpm -s dir -t deb -n scribe \
     -C dist \
     -v 0.2.2~$(date +%Y%m%d)~prezi$buildcount \
     -p /output/scribe_VERSION_ARCH.deb \
-    -d thrift \
-    -d python-six \
+    -d thrift -d python-six -d libevent-2.0-5 -d libboost-system1.55.0 \
+    -d libboost-filesystem1.55.0 \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
