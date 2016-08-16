@@ -27,14 +27,14 @@ cd /build/thrift/contrib/fb303
 mkdir dist
 make -j8 DESTDIR=$(pwd)/dist install
 mv dist/usr/lib/python2.7/{site,dist}-packages
-fpm -s dir -t deb -n thrift-fb303 \
+fpm -s dir -t deb -n fb303 \
     -C dist \
     -v 1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount \
-    -p /output/thrift-fb303_VERSION_ARCH.deb \
+    -p /output/fb303_VERSION_ARCH.deb \
     -d thrift \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
-dpkg -i /output/thrift-fb303*.deb
+dpkg -i /output/fb303*.deb
 
 echo 'BUILDING, PACKAGING SCRIBE'
 cd /build/scribe
@@ -48,6 +48,6 @@ fpm -s dir -t deb -n scribe \
     -v 0.2.2~$(date +%Y%m%d)~prezi$buildcount \
     -p /output/scribe_VERSION_ARCH.deb \
     -d thrift -d python-six -d libevent-2.0-5 -d libboost-system1.55.0 \
-    -d libboost-filesystem1.55.0 \
+    -d libboost-filesystem1.55.0 -d fb303 \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
