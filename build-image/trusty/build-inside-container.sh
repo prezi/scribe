@@ -5,6 +5,8 @@ buildcount=$1
 
 echo "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" > /output/README.md
 
+thrift_version="1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount"
+
 echo 'BUILDING, INSTALLING THRIFT'
 cd /build/thrift
 ./bootstrap.sh
@@ -14,7 +16,7 @@ make -j8 DESTDIR=$(pwd)/dist install
 mv dist/usr/lib/python2.7/{site,dist}-packages
 fpm -s dir -t deb -n thrift \
     -C dist \
-    -v 1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount \
+    -v  "$thrift_version" \
     -p /output/thrift_VERSION_ARCH.deb \
     -d libglib2.0-dev -d python-twisted-core \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
@@ -29,9 +31,9 @@ make -j8 DESTDIR=$(pwd)/dist install
 mv dist/usr/lib/python2.7/{site,dist}-packages
 fpm -s dir -t deb -n fb303 \
     -C dist \
-    -v 1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount \
+    -v "$thrift_version" \
     -p /output/fb303_VERSION_ARCH.deb \
-    -d thrift \
+    -d "thrift (= $thrift_version)" \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
 dpkg -i /output/fb303*.deb
@@ -47,7 +49,7 @@ fpm -s dir -t deb -n scribe \
     -C dist \
     -v 0.2.2~$(date +%Y%m%d)~prezi$buildcount \
     -p /output/scribe_VERSION_ARCH.deb \
-    -d thrift -d python-six -d libevent-2.0-5 -d libboost-system1.55.0 \
-    -d libboost-filesystem1.55.0 -d fb303 \
+    -d "thrift (= $thrift_version)" -d python-six -d libevent-2.0-5 -d libboost-system1.55.0 \
+    -d libboost-filesystem1.55.0 -d "fb303 (= $thrift_version)" \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
