@@ -11,11 +11,12 @@ cd /build/thrift
 ./configure --prefix=/usr
 mkdir dist
 make -j8 DESTDIR=$(pwd)/dist install
+mv dist/usr/lib/python2.7/{site,dist}-packages
 fpm -s dir -t deb -n thrift \
     -C dist \
     -v 1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount \
     -p /output/thrift_VERSION_ARCH.deb \
-    -d libglib2.0-dev \
+    -d libglib2.0-dev -d python-twisted-core \
     --description "Built at $(date) from https://github.com/prezi/scribe/tree/master/build-image/trusty" \
     usr
 dpkg -i /output/thrift_*.deb
@@ -25,6 +26,7 @@ cd /build/thrift/contrib/fb303
 ./bootstrap.sh --prefix=/usr --with-thriftpath=/usr/
 mkdir dist
 make -j8 DESTDIR=$(pwd)/dist install
+mv dist/usr/lib/python2.7/{site,dist}-packages
 fpm -s dir -t deb -n thrift-fb303 \
     -C dist \
     -v 1.0.0-dev~$(date +%Y%m%d)~prezi$buildcount \
@@ -40,6 +42,7 @@ cd /build/scribe
 mkdir dist
 make -j8 DESTDIR=$(pwd)/dist install
 cp examples/scribe_{apache,cat,ctrl} dist/usr/bin
+mv dist/usr/lib/python2.7/{site,dist}-packages
 fpm -s dir -t deb -n scribe \
     -C dist \
     -v 0.2.2~$(date +%Y%m%d)~prezi$buildcount \

@@ -11,7 +11,7 @@ ADD public-deb-sources.list /etc/apt/sources.list.d/public-deb-sources.list
 RUN apt-get update \
  && apt-get install -y g++-4.8 gcc-4.8 build-essential ruby ruby-dev make flex bison libtool \
     libevent-dev automake pkg-config libssl-dev libboost1.55-all-dev libbz2-dev \
-    build-essential g++ python2.7-dev python2.7-dbg git \
+    build-essential g++ python2.7-dev python2.7-dbg python-twisted-core python-pip git \
     libglib2.0-dev
 
 # FPM for building .deb packages
