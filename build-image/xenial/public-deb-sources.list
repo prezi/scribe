@@ -1,0 +1,2 @@
+deb http://s3.amazonaws.com/package-repository-public prezi-xenial main
+deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main
