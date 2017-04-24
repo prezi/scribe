@@ -20,7 +20,7 @@ RUN gem install --no-ri --no-rdoc fpm
 # Get thrift and scribe sources
 RUN mkdir -p /build \
  && git clone --depth=1 https://github.com/prezi/scribe.git /build/scribe \
- && git clone --depth=1 https://github.com/apache/thrift.git /build/thrift
+ && git clone --depth=1 https://github.com/prezi/thrift.git /build/thrift
 
 # build script
 ADD build-inside-container.sh /build/build.sh
