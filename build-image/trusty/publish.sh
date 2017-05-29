@@ -12,4 +12,4 @@ for file in *prezi$buildnumber*.deb; do
     ssh root@oam3.us.prezi.private deb-s3-wrapper upload -v public -b package-repository-public -p --codename=prezi-trusty --arch=amd64 $remote_dir/$file
 done
 
-s3cmd setacl --acl-public --recursive s3://package-repository-public
+ssh root@oam3.us.prezi.private s3cmd setacl --acl-public --recursive s3://package-repository-public
